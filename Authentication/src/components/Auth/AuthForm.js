@@ -1,15 +1,17 @@
-import { useRef, useState } from 'react';
-
+import { useEffect, useRef, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import classes from './AuthForm.module.css';
 import axios from 'axios';
 import { AuthContext } from '../../context/AuthContext';
 
 const AuthForm = () => {
+  const history=useHistory()
   const { login,isLoggedIn } = AuthContext()
   const [isLogin, setIsLogin] = useState(true);
   const [loading, setLoading] = useState(false)
   const emailRef = useRef()
   const passwordRef = useRef()
+
   const switchAuthModeHandler = () => {
     setIsLogin((prevState) => !prevState);
   };
@@ -33,7 +35,9 @@ const AuthForm = () => {
       })
       login(res.data.idToken)
       console.log(res.data.idToken);
+      localStorage.setItem('loginInfo',res.data.idToken)
       alert('Authentication Success')
+      history.replace('/')
     } catch (error) {
       alert('Authentication failed..!');
     }
@@ -43,8 +47,8 @@ const AuthForm = () => {
 
   return (
     <section className={classes.auth}>
-      {!isLoggedIn&&<h1>{isLogin ? 'Login' : 'Sign Up'}</h1>}
-      {!isLoggedIn&&
+      <h1>{isLogin ? 'Login' : 'Sign Up'}</h1>
+      
       <form onSubmit={submitHandler}>
         <div className={classes.control}>
           <label htmlFor='email'>Your Email</label>
@@ -66,7 +70,7 @@ const AuthForm = () => {
           </button>
 
         </div>
-      </form>}
+      </form>
     </section>
   );
 };

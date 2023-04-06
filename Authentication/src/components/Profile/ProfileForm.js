@@ -1,8 +1,10 @@
 import classes from './ProfileForm.module.css';
 import { AuthContext } from '../../context/AuthContext';
 import axios from 'axios';
+import { useHistory } from 'react-router-dom';
 import { useRef } from 'react';
 const ProfileForm = () => {
+  const history=useHistory()
   const newPasswordRef=useRef()
   const {token}=AuthContext();
   const submitHandler=async(e)=>{
@@ -14,6 +16,8 @@ const ProfileForm = () => {
         password:enteredPassword,
         returnSecureToken:false
       });
+      history.replace('/')
+      
       alert('password Changed Successfully')
     } catch (error) {
       alert('somthing went worng')

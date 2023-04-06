@@ -15,6 +15,7 @@ const AuthContextProvier=({children})=>{
     }
     const logoutHandler=()=>{
         setToken(null)
+        localStorage.removeItem('loginInfo')
     }
     return <Auth.Provider value={{
         token:token,
