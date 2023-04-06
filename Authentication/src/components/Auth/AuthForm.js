@@ -33,7 +33,7 @@ const AuthForm = () => {
       })
       login(res.data.idToken)
       console.log(res.data.idToken);
-      alert('Success')
+      alert('Authentication Success')
     } catch (error) {
       alert('Authentication failed..!');
     }
@@ -43,7 +43,8 @@ const AuthForm = () => {
 
   return (
     <section className={classes.auth}>
-      <h1>{isLogin ? 'Login' : 'Sign Up'}</h1>
+      {!isLoggedIn&&<h1>{isLogin ? 'Login' : 'Sign Up'}</h1>}
+      {!isLoggedIn&&
       <form onSubmit={submitHandler}>
         <div className={classes.control}>
           <label htmlFor='email'>Your Email</label>
@@ -65,7 +66,7 @@ const AuthForm = () => {
           </button>
 
         </div>
-      </form>
+      </form>}
     </section>
   );
 };
