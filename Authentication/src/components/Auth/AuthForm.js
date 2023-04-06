@@ -2,8 +2,10 @@ import { useRef, useState } from 'react';
 
 import classes from './AuthForm.module.css';
 import axios from 'axios';
+import { AuthContext } from '../../context/AuthContext';
 
 const AuthForm = () => {
+  const { login,isLoggedIn } = AuthContext()
   const [isLogin, setIsLogin] = useState(true);
   const [loading, setLoading] = useState(false)
   const emailRef = useRef()
@@ -11,6 +13,7 @@ const AuthForm = () => {
   const switchAuthModeHandler = () => {
     setIsLogin((prevState) => !prevState);
   };
+  console.log(isLoggedIn);
   const submitHandler = async (e) => {
     e.preventDefault();
     const enteredEmail = emailRef.current.value;
@@ -22,23 +25,19 @@ const AuthForm = () => {
     } else {
       url = 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAyqFjwekzckK01VIQTo6f0bFFrPZrmDyI'
     }
-     try {
+    try {
       const res = await axios.post(url, {
         email: enteredEmail,
         password: enteredPassword,
         returnSecureToken: true
       })
+      login(res.data.idToken)
       console.log(res.data.idToken);
       alert('Success')
     } catch (error) {
-      console.log();
       alert('Authentication failed..!');
     }
     setLoading(false)
-
-
-
-
     e.target.reset()
   }
 
