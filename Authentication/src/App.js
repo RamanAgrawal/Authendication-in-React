@@ -5,13 +5,10 @@ import UserProfile from './components/Profile/UserProfile';
 import AuthPage from './pages/AuthPage';
 import HomePage from './pages/HomePage';
 import { AuthContext } from './context/AuthContext';
-import { useEffect } from 'react';
+
 function App() {
-  const { login, isLoggedIn } = AuthContext()
-  useEffect(() => {
-    login(localStorage.getItem('loginInfo'))
-    console.log(localStorage.getItem('loginInfo'));
-  }, [])
+  const { isLoggedIn } = AuthContext()
+ 
   return (
     <Layout>
       <Switch>

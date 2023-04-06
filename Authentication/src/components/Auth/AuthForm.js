@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import {  useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import classes from './AuthForm.module.css';
 import axios from 'axios';
@@ -33,9 +33,10 @@ const AuthForm = () => {
         password: enteredPassword,
         returnSecureToken: true
       })
-      login(res.data.idToken)
-      console.log(res.data.idToken);
-      localStorage.setItem('loginInfo',res.data.idToken)
+      const expirationTime=new Date(new Date().getTime()+(+res.data.expiresIn *1000))
+      login(res.data.idToken,expirationTime)
+      
+      
       alert('Authentication Success')
       history.replace('/')
     } catch (error) {
